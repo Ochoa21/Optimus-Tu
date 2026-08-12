@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inicio | Optimus-Tu</title>
+<style>
+  :root{
+    --cyan:#22d3ee;
+    --blue:#3b82f6;
+    --magenta:#ec4899;
+    --violet:#8b5cf6;
+    --bg:#0e1116;
+    --text:#f5f5f5;
+    --muted:#c9c9d1;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Segoe UI', Arial, sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+  }
+  .hero{
+    position:relative;
+    min-height:100vh;
+    background:
+      linear-gradient(120deg, rgba(10,12,16,0.88) 0%, rgba(10,12,16,0.55) 45%, rgba(10,12,16,0.25) 100%),
+      url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+    display:flex;
+    flex-direction:column;
+  }
+  nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:28px 60px;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+  .logo{
+    display:flex;
+    flex-direction:column;
+    line-height:1;
+  }
+  .logo .name{
+    font-size:2.1rem;
+    font-weight:800;
+    background:linear-gradient(90deg, var(--cyan), var(--violet), var(--magenta));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    letter-spacing:1px;
+  }
+  .logo .tagline{
+    margin-top:6px;
+    font-size:0.7rem;
+    letter-spacing:3px;
+    color:var(--muted);
+    font-weight:600;
+  }
+  .nav-links{
+    display:flex;
+    align-items:center;
+    gap:38px;
+    flex-wrap:wrap;
+  }
+  .nav-links button.link-btn{
+    background:none;
+    border:none;
+    color:var(--text);
+    font-size:1.05rem;
+    cursor:pointer;
+    font-family:inherit;
+    padding:8px 2px;
+    opacity:0.95;
+    transition:opacity .2s;
+  }
+  .nav-links button.link-btn:hover{ opacity:1; text-decoration:underline; text-underline-offset:6px;}
+  .btn-gradient{
+    background:linear-gradient(90deg, var(--cyan), var(--blue), var(--magenta));
+    border:none;
+    color:#fff;
+    font-weight:700;
+    font-size:1.05rem;
+    padding:14px 34px;
+    border-radius:999px;
+    cursor:pointer;
+    box-shadow:0 6px 20px rgba(139,92,246,0.35);
+    transition:transform .2s, box-shadow .2s;
+    font-family:inherit;
+  }
+  .btn-gradient:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 26px rgba(236,72,153,0.4);
+  }
+  .content{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:20px 60px 90px;
+  }
+  h1.headline{
+    font-size:5.2rem;
+    line-height:1.02;
+    margin:0;
+    font-weight:800;
+  }
+  h1.headline .cyan{ color:var(--cyan); }
+  h1.headline .white-italic{
+    color:#fff;
+    font-style:italic;
+  }
+  p.subtext{
+    font-size:1.4rem;
+    color:#e5e5ea;
+    max-width:640px;
+    margin:36px 0 46px;
+  }
+  p.subtext .pink{
+    color:var(--magenta);
+    font-weight:700;
+  }
+  /* Modal */
+  .overlay{
+    position:fixed; inset:0;
+    background:rgba(0,0,0,0.6);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:50;
+  }
+  .overlay.show{ display:flex; }
+  .modal{
+    background:#1a1e26;
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:16px;
+    padding:34px 38px;
+    max-width:380px;
+    width:90%;
+    text-align:center;
+    box-shadow:0 20px 60px rgba(0,0,0,0.5);
+  }
+  .modal h3{
+    margin:0 0 10px;
+    font-size:1.4rem;
+    background:linear-gradient(90deg, var(--cyan), var(--magenta));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .modal p{
+    color:var(--muted);
+    margin:0 0 24px;
+    font-size:0.98rem;
+  }
+  .modal button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:999px;
+    font-weight:700;
+    font-size:1rem;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  .modal .primary{
+    background:linear-gradient(90deg, var(--cyan), var(--blue), var(--magenta));
+    color:#fff;
+    margin-bottom:12px;
+  }
+  .modal .secondary{
+    background:transparent;
+    color:var(--muted);
+    border:1px solid rgba(255,255,255,0.15);
+  }
+  .modal.modal-about{
+    max-width:640px;
+    text-align:left;
+    max-height:80vh;
+    overflow-y:auto;
+  }
+  .modal-about h3{
+    font-size:1.8rem;
+    text-align:center;
+  }
+  .modal-about h4{
+    color:var(--cyan);
+    font-size:1.1rem;
+    margin:22px 0 8px;
+  }
+  .modal-about p{
+    color:#d8d8de;
+    font-size:0.98rem;
+    line-height:1.7;
+    margin:0 0 4px;
+  }
+  .modal-about ul{
+    margin:0 0 4px;
+    padding-left:20px;
+    color:#d8d8de;
+    font-size:0.98rem;
+    line-height:1.8;
+  }
+  .modal-about .secondary{
+    margin-top:20px;
+  }
+  footer.ot-public-footer{
+    background:rgba(2,6,23,.95);
+    border-top:1px solid rgba(255,255,255,0.08);
+    color:var(--muted);
+    padding:45px 60px 25px;
+  }
+  .ot-public-footer .ot-footer-inner{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    gap:30px;
+    max-width:1200px;
+    margin:0 auto;
+  }
+  .ot-public-footer h4{
+    color:white;
+    font-size:15px;
+    margin-bottom:14px;
+  }
+  .ot-public-footer p{
+    font-size:14px;
+    line-height:1.8;
+    margin:0 0 6px;
+  }
+  .ot-public-footer a,
+  .ot-public-footer button{
+    color:var(--muted);
+    text-decoration:none;
+    font-size:14px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    font-family:inherit;
+    padding:0;
+    display:block;
+    margin-bottom:6px;
+    text-align:left;
+  }
+  .ot-public-footer a:hover,
+  .ot-public-footer button:hover{ color:var(--cyan); }
+  .ot-footer-bottom{
+    text-align:center;
+    margin-top:30px;
+    padding-top:20px;
+    border-top:1px solid rgba(255,255,255,0.06);
+    font-size:13px;
+    color:#75757e;
+  }
+  @media (max-width:900px){
+    nav{padding:22px 24px;}
+    .nav-links{gap:20px;}
+    .content{padding:20px 24px 70px;}
+    h1.headline{font-size:2.8rem;}
+    p.subtext{font-size:1.1rem;}
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <nav>
+    <div class="logo">
+      <span class="name">Optimus-Tu</span>
+      <span class="tagline">DESCUBRE TU FUTURO</span>
+    </div>
+    <div class="nav-links">
+      <button class="link-btn" onclick="requireLogin()">Test Vocacional</button>
+      <button class="link-btn" onclick="requireLogin()">Universidades</button>
+      <button class="link-btn" onclick="requireLogin()">Becas</button>
+      <button class="link-btn" onclick="showAbout()">Quiénes somos</button>
+      <button class="btn-gradient" onclick="goToLogin()">Iniciar Sesión</button>
+    </div>
+  </nav>
+
+  <div class="content">
+    <h1 class="headline">
+      <span class="cyan">¡TU FUTURO</span><br>
+      <span class="white-italic">COMIENZA AQUÍ!</span>
+    </h1>
+    <p class="subtext">Explora, <span class="pink">Descubre</span> y construye la carrera perfecta para ti.</p>
+    <div>
+      <button class="btn-gradient" onclick="requireLogin()">Realizar Test</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="loginOverlay">
+  <div class="modal">
+    <h3>Inicia sesión para continuar</h3>
+    <p>Necesitas una cuenta para acceder a esta sección de Optimus-Tu.</p>
+    <button class="primary" onclick="goToLogin()">Iniciar Sesión</button>
+    <button class="secondary" onclick="closeModal()">Cancelar</button>
+  </div>
+</div>
+
+<div class="overlay" id="aboutOverlay">
+  <div class="modal modal-about">
+    <h3>¿Qué es Optimus-Tu?</h3>
+    <p>Optimus-Tu es una plataforma pensada para acompañarte en uno de los momentos más importantes de tu vida: elegir qué vas a estudiar. Combinamos un test vocacional, información de universidades y becas disponibles en Colombia, todo en un solo lugar.</p>
+
+    <h4>Nuestras funciones</h4>
+    <ul>
+      <li>Test vocacional y psicosocial para descubrir tus fortalezas e intereses.</li>
+      <li>Directorio de universidades con sus carreras, duración y campo laboral.</li>
+      <li>Información actualizada de becas y créditos educativos.</li>
+      <li>Perfil personal donde guardamos el resultado de tu test.</li>
+    </ul>
+
+    <h4>Misión</h4>
+    <p>Facilitar a los jóvenes el acceso a información clara y confiable sobre su futuro académico, ayudándolos a tomar decisiones informadas sobre su vocación y su formación profesional.</p>
+
+    <h4>Visión</h4>
+    <p>Ser la plataforma de orientación vocacional de referencia para estudiantes de Colombia, conectando talento con oportunidades educativas reales.</p>
+
+    <button class="secondary" onclick="closeAbout()">Cerrar</button>
+  </div>
+</div>
+
+<footer class="ot-public-footer">
+  <div class="ot-footer-inner">
+    <div>
+      <h4>Optimus-Tu</h4>
+      <p>Te ayudamos a descubrir tu vocación y a encontrar el camino académico que mejor se ajusta a ti.</p>
+    </div>
+    <div>
+      <h4>Explora</h4>
+      <button onclick="requireLogin()">Test Vocacional</button>
+      <button onclick="requireLogin()">Universidades</button>
+      <button onclick="requireLogin()">Becas</button>
+      <button onclick="showAbout()">Quiénes somos</button>
+    </div>
+    <div>
+      <h4>Accede</h4>
+      <button onclick="goToLogin()">Iniciar sesión</button>
+      <button onclick="window.location.href='/auth/registro.php'">Regístrate</button>
+    </div>
+  </div>
+  <div class="ot-footer-bottom">
+    &copy; 2026 Optimus-Tu. Todos los derechos reservados.
+  </div>
+</footer>
+
+<script>
+  function requireLogin(){
+    document.getElementById('loginOverlay').classList.add('show');
+  }
+  function closeModal(){
+    document.getElementById('loginOverlay').classList.remove('show');
+  }
+  function goToLogin(){
+    window.location.href = '/Optimus-TU/auth/login.php';
+  }
+  function showAbout(){
+    document.getElementById('aboutOverlay').classList.add('show');
+  }
+  function closeAbout(){
+    document.getElementById('aboutOverlay').classList.remove('show');
+  }
+  if(window.location.hash === '#quienes-somos'){
+    showAbout();
+  }
+</script>
+
+</body>
+</html>
